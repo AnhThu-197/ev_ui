@@ -10,7 +10,7 @@ export const MOCK_USER = {
   phone: "0912 345 678",
   avatar: "AT",
   balance: 1250000,
-  vehicle: "VF 8 • 51K-988.68"
+  vehicle: "VF 7 • 51K-988.68"
 };
 
 export const MOCK_CHARGING_SESSION = {
