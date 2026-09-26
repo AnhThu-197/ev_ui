@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { LoaderCircle, Phone, ChevronLeft, LockKeyhole, Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-export default function ForgotPasswordScreen({ onNavigate }) {
+export default function ForgotPasswordScreen() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Phone, 2: OTP, 3: New Pass
   const [formData, setFormData] = useState({ phone: '', otp: ['', '', '', ''], newPassword: '', confirmPassword: '' });
   const [showPassword, setShowPassword] = useState(false);
@@ -75,7 +77,7 @@ export default function ForgotPasswordScreen({ onNavigate }) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      onNavigate('LOGIN');
+      navigate('/login');
     }, 1000);
   };
 
@@ -90,7 +92,7 @@ export default function ForgotPasswordScreen({ onNavigate }) {
         <header className="flex items-center justify-between mb-8">
           <button 
             type="button"
-            onClick={() => step > 1 ? setStep(step - 1) : onNavigate('LOGIN')}
+            onClick={() => step > 1 ? setStep(step - 1) : navigate('/login')}
             className="h-12 w-12 rounded-full border border-transparent bg-[#F5F5F7] flex items-center justify-center text-[#1D1D1F] transition-all hover:bg-[#E5E5EA] active:scale-95"
           >
             <ChevronLeft size={24} strokeWidth={2} />

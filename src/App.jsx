@@ -1,28 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BatteryFull, Signal, Wifi } from 'lucide-react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
+import OtpScreen from './screens/OtpScreen'
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('LOGIN')
-  const usesDarkHeader = currentScreen === 'LOGIN' || currentScreen === 'HOME'
-
-  const renderScreen = () => {
-    switch(currentScreen) {
-      case 'LOGIN':
-        return <LoginScreen onNavigate={setCurrentScreen} />
-      case 'HOME':
-        return <HomeScreen onNavigate={setCurrentScreen} />
-      case 'REGISTER':
-        return <RegisterScreen onNavigate={setCurrentScreen} />
-      case 'FORGOT_PASSWORD':
-        return <ForgotPasswordScreen onNavigate={setCurrentScreen} />
-      default:
-        return <LoginScreen onNavigate={setCurrentScreen} />
-    }
-  }
+  const location = useLocation()
+  // Determine if the current screen uses a dark header (white text)
+  // assuming login and home use dark headers.
+  const usesDarkHeader = location.pathname === '/login' || location.pathname === '/' || location.pathname === ''
 
   return (
     <div className="w-full h-full relative bg-white overflow-hidden flex flex-col">
@@ -37,7 +26,16 @@ function App() {
       </div>
 
       <div className="flex-1 w-full h-full overflow-hidden">
-        {renderScreen()}
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/map" element={<HomeScreen />} />
+          <Route path="/scan" element={<HomeScreen />} />
+          <Route path="/account" element={<HomeScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+          <Route path="/otp" element={<OtpScreen />} />
+        </Routes>
       </div>
 
       {/* Global Home Indicator */}

@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, Phone, ChevronLeft, User, KeyRound, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-export default function RegisterScreen({ onNavigate }) {
+export default function RegisterScreen() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Info, 2: OTP
   const [formData, setFormData] = useState({ name: '', phone: '', password: '', confirmPassword: '', otp: ['', '', '', ''] });
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +66,7 @@ export default function RegisterScreen({ onNavigate }) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      onNavigate('LOGIN'); // Go to login after registering
+      navigate('/login'); // Go to login after registering
     }, 1000);
   };
 
@@ -80,7 +82,7 @@ export default function RegisterScreen({ onNavigate }) {
         <header className="flex items-center justify-between mb-8">
           <button 
             type="button"
-            onClick={() => step === 2 ? setStep(1) : onNavigate('LOGIN')}
+            onClick={() => step === 2 ? setStep(1) : navigate('/login')}
             className="h-12 w-12 rounded-full border border-[#F0F2F4] flex items-center justify-center text-[#1A1D1E] bg-white/70 backdrop-blur-md shadow-sm transition-transform active:scale-95"
           >
             <ChevronLeft size={24} strokeWidth={2} />

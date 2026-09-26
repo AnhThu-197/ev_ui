@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Map, ScanLine, User, Home, Wallet, Zap, Navigation, ChevronRight, Search, LocateFixed, MapPin, SlidersHorizontal, Coffee, Wifi, Clock, Settings, Lock, LogOut, Phone, Calendar, Building, Mail, FileDigit } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function HomeScreen({ onNavigate }) {
-  const [activeTab, setActiveTab] = useState('HOME');
+export default function HomeScreen() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isCharging, setIsCharging] = useState(false); // Toggle to see charging state
+  
+  const getActiveTab = () => {
+    if (location.pathname === '/map') return 'MAP';
+    if (location.pathname === '/scan') return 'SCAN';
+    if (location.pathname === '/account') return 'ACCOUNT';
+    return 'HOME';
+  };
+  
+  const activeTab = getActiveTab();
 
   return (
     <div className="flex flex-col h-full bg-[#F5F5F7] relative">
@@ -12,25 +23,26 @@ export default function HomeScreen({ onNavigate }) {
       <div className={`flex-1 overflow-y-auto ${activeTab === 'MAP' ? '' : 'pb-[100px]'}`}>
         {activeTab === 'HOME' && <HomeContent isCharging={isCharging} setIsCharging={setIsCharging} />}
         {activeTab === 'MAP' && <MapContent />}
-        {activeTab === 'ACCOUNT' && <AccountContent onLogout={() => onNavigate('LOGIN')} />}
+        {activeTab === 'SCAN' && <div className="flex items-center justify-center h-full text-zinc-500">Màn hình quét mã QR</div>}
+        {activeTab === 'ACCOUNT' && <AccountContent onLogout={() => navigate('/login')} />}
       </div>
 
       {/* Bottom Navigation */}
       <div className="absolute bottom-0 w-full h-[84px] bg-white/90 backdrop-blur-xl border-t border-black/5 flex justify-evenly items-start pt-3 pb-6 z-50">
-        <div className="w-[70px] flex justify-center"><NavButton icon={Home} label="Trang chủ" isActive={activeTab === 'HOME'} onClick={() => setActiveTab('HOME')} /></div>
-        <div className="w-[70px] flex justify-center"><NavButton icon={Map} label="Bản đồ" isActive={activeTab === 'MAP'} onClick={() => setActiveTab('MAP')} /></div>
+        <div className="w-[70px] flex justify-center"><NavButton icon={Home} label="Trang chủ" isActive={activeTab === 'HOME'} onClick={() => navigate('/')} /></div>
+        <div className="w-[70px] flex justify-center"><NavButton icon={Map} label="Bản đồ" isActive={activeTab === 'MAP'} onClick={() => navigate('/map')} /></div>
         
         {/* Scan Button as a standard tab but highlighted */}
         <div className="w-[70px] flex justify-center">
-          <button className="flex flex-col items-center gap-1.5 w-[60px] active:scale-95 transition-transform">
-            <div className="w-8 h-8 rounded-full bg-[#1D1D1F] flex items-center justify-center shadow-md">
-              <ScanLine size={16} strokeWidth={2.5} className="text-[#51ce70]" />
+          <button onClick={() => navigate('/scan')} className="flex flex-col items-center gap-1.5 w-[60px] active:scale-95 transition-transform">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md ${activeTab === 'SCAN' ? 'bg-[#51ce70]' : 'bg-[#1D1D1F]'}`}>
+              <ScanLine size={16} strokeWidth={2.5} className={activeTab === 'SCAN' ? 'text-white' : 'text-[#51ce70]'} />
             </div>
-            <span className="text-[10px] font-bold text-[#1D1D1F]">Quét sạc</span>
+            <span className={`text-[10px] font-bold ${activeTab === 'SCAN' ? 'text-[#51ce70]' : 'text-[#1D1D1F]'}`}>Quét sạc</span>
           </button>
         </div>
 
-        <div className="w-[70px] flex justify-center"><NavButton icon={User} label="Tài khoản" isActive={activeTab === 'ACCOUNT'} onClick={() => setActiveTab('ACCOUNT')} /></div>
+        <div className="w-[70px] flex justify-center"><NavButton icon={User} label="Tài khoản" isActive={activeTab === 'ACCOUNT'} onClick={() => navigate('/account')} /></div>
       </div>
     </div>
   );

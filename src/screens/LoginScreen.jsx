@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, LoaderCircle, LockKeyhole, Phone, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-export default function LoginScreen({ onNavigate }) {
+export default function LoginScreen() {
+  const navigate = useNavigate();
   const [phone, setPhone] = useState('0912 345 678');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +27,7 @@ export default function LoginScreen({ onNavigate }) {
     setIsLoading(true);
     window.setTimeout(() => {
       setIsLoading(false);
-      onNavigate('HOME');
+      navigate('/');
     }, 800);
   };
 
@@ -143,7 +145,7 @@ export default function LoginScreen({ onNavigate }) {
           </div>
 
           <div className="mt-2 flex justify-end">
-            <button type="button" onClick={() => onNavigate('FORGOT_PASSWORD')} className="min-h-11 rounded-xl px-1 text-[13px] font-semibold text-[#7d7f84] transition hover:bg-[#f3f3f5] hover:text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1d1d1f]">
+            <button type="button" onClick={() => navigate('/forgot-password')} className="min-h-11 rounded-xl px-1 text-[13px] font-semibold text-[#7d7f84] transition hover:bg-[#f3f3f5] hover:text-[#1d1d1f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1d1d1f]">
               Quên mật khẩu?
             </button>
           </div>
@@ -164,7 +166,7 @@ export default function LoginScreen({ onNavigate }) {
 
           <div className="mt-auto pt-8 pb-6 flex items-center justify-center gap-1.5">
             <span className="text-[14px] text-[#7d7f84] font-medium">Chưa có tài khoản?</span>
-            <button type="button" onClick={() => onNavigate('REGISTER')} className="text-[14px] font-bold text-[#25984a] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c969] rounded-md px-1 py-0.5">
+            <button type="button" onClick={() => navigate('/register')} className="text-[14px] font-bold text-[#25984a] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c969] rounded-md px-1 py-0.5">
               Đăng ký ngay
             </button>
           </div>
